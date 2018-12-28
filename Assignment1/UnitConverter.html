@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head> <title> Unit Converter </title> </head>
+<body>
+
+<p> <em> <b> Unit Converter </b> </em> </p>
+
+<select id="converter" onchange="UpdateOptions()">
+  <option value="none">-----</option>
+  <option value="length">Length</option>
+  <option value="mass">Mass</option>
+  <option value="temperature">Temperature</option>
+  <option value="volume">Volume</option>
+</select>
+
+Input Value: <input type="text" id="inputvalue" oninput="ConvertUnits()"><br>
+Output Value: <input type="text" id="outputvalue" onchange="ConvertUnits()">
+<br>
+
+FromUnit:
+<select id="FromUnit" oninput="ConvertUnits()">
+  <option value="None">-----</option>
+</select>
+ToUnit:
+<select id="ToUnit" oninput="ConvertUnits()">
+  <option value="None">-----</option>
+</select>
+
+<script>
+
+    var LengthArray = [
+    {value: "0.001", text: "Milimeter"},
+    {value: "0.01", text: "Centimeter"},
+    {value: "1", text: "Meter"},
+    {value: "1000", text: "Kilometer"}
+    ];
+
+    var MassArray = [
+    {value: "0.001", text: "Miligram"},
+    {value: "1", text: "Gram"},
+    {value: "1000", text: "Kilogram"}
+    ];
+
+    var TemperatureArray = [
+    {value: "0.556", text: "Celsius"},
+    {value: "1.8", text: "Fahrenheit"},
+    ];
+
+    var VolumeArray = [
+    {value: "0.001", text: "Mililiter"},
+    {value: "1", text: "Liter"},
+    ];
+
+    var defaultArray = [
+    {value: "none", text: "-----"},
+    ];
+
+    var fromSelect = document.getElementById("FromUnit");
+    var toSelect = document.getElementById("ToUnit");
+    var converter = document.getElementById("converter");
+    var inputValue = document.getElementById("inputvalue");
+    var outputValue = document.getElementById("outputvalue");
+
+function UpdateOptions() {
+
+    var converterValue = converter.value;
+    var value = inputValue.value;
+    var array = '';
+
+    switch(converterValue) {
+        case "length":
+            array = LengthArray;
+            break;
+        case "mass":
+            array = MassArray;
+            break;
+        case "temperature":
+            array = TemperatureArray;
+            break;
+        case "volume":
+            array = VolumeArray;
+            break;
+        case "none":
+            array = defaultArray;
+            break;
+    }
+
+    fromSelect.options.length = 0;
+    toSelect.options.length = 0;
+
+    var option;
+    var i = 0;
+    il = array.length;
+
+    for (; i < il; i += 1) {
+        option = document.createElement('option');
+        option.setAttribute('value', array[i].value);
+        option.appendChild(document.createTextNode(array[i].text));
+        fromSelect.appendChild(option);
+
+        option = document.createElement('option');
+        option.setAttribute('value', array[i].value);
+        option.appendChild(document.createTextNode(array[i].text));
+        toSelect.appendChild(option);
+    }
+}
+
+function ConvertUnits() {
+    var number = Number(inputValue.value);
+    var from = Number(fromSelect.value);
+    var to = Number(toSelect.value);
+    outputValue.value = number*(from/to);
+}
+
+</script>
+
+</body>
+</html>
